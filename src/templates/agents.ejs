@@ -1,0 +1,45 @@
+<%- include('partials/head', { title: 'All Agents' }) %>
+<%- include('partials/nav', { page: 'agents' }) %>
+<div class="page">
+  <div class="page-banner">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › Agents</div>
+      <h1>🧬 Agent Roster</h1>
+      <p>Every agent, every role — tips, abilities, and level guides from Iron to Radiant.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="filter-tabs">
+      <% roles.forEach(r => { %>
+        <a href="/agents?role=<%= encodeURIComponent(r) %>" class="filter-tab <%= role===r?'active':'' %>"><%= r %> <% if(r!=='All'){ %><span style="opacity:0.6;font-size:11px">(<%= allAgents.filter(a=>a.role===r).length %>)</span><% } %></a>
+      <% }) %>
+    </div>
+    <div class="agents-grid">
+      <% agents.forEach(agent => { %>
+      <a href="/agents/<%= agent.id %>" class="agent-card fade-up">
+        <div class="agent-img-wrap">
+          <img src="https://media.valorant-api.com/agents/<%= agent.uuid %>/fullportrait.png"
+               alt="<%= agent.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="agent-img-fallback" style="display:none;">🎮</div>
+          <span class="agent-role-badge role-<%= agent.role %>"><%= agent.role %></span>
+          <span class="tier-badge tier-<%= agent.tier %>"><%= agent.tier %></span>
+        </div>
+        <div class="agent-info">
+          <div class="name"><%= agent.name %></div>
+          <div class="origin"><%= agent.origin %></div>
+          <div class="desc"><%= agent.desc %></div>
+          <div class="difficulty-wrap">
+            <span class="difficulty-label">Difficulty</span>
+            <div class="difficulty-dots">
+              <% for(let i=1;i<=5;i++){ %><div class="<%= i<=agent.difficulty?'dot-fill':'dot-empty' %>"></div><% } %>
+            </div>
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

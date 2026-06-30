@@ -1,0 +1,20 @@
+{
+  "name": "somexso-expert-valorant",
+  "version": "1.0.0",
+  "description": "SomeXso Expert Valorant — The complete Valorant guide from beginner to Radiant",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "keywords": ["valorant", "guide", "gaming"],
+  "author": "SomeXso",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}

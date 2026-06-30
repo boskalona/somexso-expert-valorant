@@ -1,0 +1,50 @@
+<%- include('partials/head', { title: 'Weapons' }) %>
+<%- include('partials/nav', { page: 'weapons' }) %>
+<div class="page">
+  <div class="page-banner">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › Weapons</div>
+      <h1>🔫 Weapon Tier List</h1>
+      <p>Every weapon ranked and explained — when to buy, when to save, and how to use each gun effectively.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="filter-tabs">
+      <% types.forEach(t => { %>
+        <a href="/weapons?type=<%= encodeURIComponent(t) %>" class="filter-tab <%= type===t?'active':'' %>"><%= t %></a>
+      <% }) %>
+    </div>
+    <div class="weapons-grid">
+      <% weapons.forEach(w => { %>
+      <div class="weapon-card fade-up">
+        <div class="weapon-img-wrap">
+          <img src="https://media.valorant-api.com/weapons/<%= w.uuid %>/displayicon.png"
+               alt="<%= w.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+          <div style="display:none;font-size:32px;text-align:center">🔫</div>
+        </div>
+        <div class="weapon-header">
+          <div>
+            <div class="weapon-name"><%= w.name %></div>
+            <div class="weapon-type"><%= w.type %></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="tier-badge tier-<%= w.tier %>" style="position:relative;top:0;right:0"><%= w.tier %></span>
+            <div class="weapon-cost"><%= w.cost === 0 ? 'FREE' : w.cost + ' CR' %></div>
+          </div>
+        </div>
+        <div class="weapon-desc"><%= w.desc %></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <% w.tips.forEach(tip => { %>
+          <div style="font-size:11px;color:var(--text2);padding:4px 0;display:flex;gap:8px">
+            <span style="color:var(--red);flex-shrink:0">▶</span><%= tip %>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

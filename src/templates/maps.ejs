@@ -1,0 +1,38 @@
+<%- include('partials/head', { title: 'Maps' }) %>
+<%- include('partials/nav', { page: 'maps' }) %>
+<div class="page">
+  <div class="page-banner">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › Maps</div>
+      <h1>🗺️ Map Pool</h1>
+      <p>Attack and defense strategies for every map in the current rotation.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="maps-grid">
+      <% maps.forEach(map => { %>
+      <a href="/maps/<%= map.id %>" class="map-card fade-up">
+        <div class="map-img-wrap">
+          <img src="https://media.valorant-api.com/maps/<%= map.uuid %>/listviewicontall.png"
+               alt="<%= map.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="map-img-fallback" style="display:none;background:var(--bg3)">🗺️</div>
+          <span class="map-feature-tag"><%= map.feature %></span>
+        </div>
+        <div class="map-info">
+          <div class="name"><%= map.name %></div>
+          <div class="location">📍 <%= map.location %> · Sites: <%= map.sites %></div>
+          <div class="overview"><%= map.overview %></div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
+            <% map.bestAgents.slice(0,3).forEach(a => { %>
+              <span style="font-size:10px;font-weight:600;padding:2px 8px;background:rgba(255,70,85,0.1);border:1px solid rgba(255,70,85,0.2);border-radius:50px;color:#ff8a94"><%= a %></span>
+            <% }) %>
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

@@ -1,0 +1,59 @@
+<%- include('partials/head', { title: guide.title }) %>
+<%- include('partials/nav', { page: 'guides' }) %>
+<div class="page">
+  <div class="page-banner" style="background:linear-gradient(135deg,<%= guide.levelColor %>18,var(--bg2));">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › <a href="/guides">Guides</a> › <%= guide.level %></div>
+      <h1><%= guide.icon %> <%= guide.title %></h1>
+      <p><%= guide.subtitle %></p>
+    </div>
+  </div>
+
+  <div class="guide-detail-layout">
+
+    <!-- Level Header -->
+    <div class="guide-level-header">
+      <div class="guide-level-icon"><%= guide.icon %></div>
+      <div>
+        <span class="guide-level-badge" style="color:<%= guide.levelColor %>;border-color:<%= guide.levelColor %>40;background:<%= guide.levelColor %>18"><%= guide.level %></span>
+        <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-top:6px"><%= guide.title %></div>
+        <div style="font-size:13px;color:var(--text2);margin-top:4px">⏱ <%= guide.duration %> · <%= guide.chapters.length %> chapters</div>
+      </div>
+    </div>
+
+    <!-- Chapters -->
+    <% guide.chapters.forEach(ch => { %>
+    <div class="chapter-card">
+      <div class="chapter-head">
+        <span class="chapter-icon"><%= ch.icon %></span>
+        <h3 class="chapter-title"><%= ch.title %></h3>
+      </div>
+      <div class="chapter-body">
+        <p><%= ch.body %></p>
+        <ul class="chapter-steps">
+          <% ch.steps.forEach(s => { %><li><%= s %></li><% }) %>
+        </ul>
+      </div>
+    </div>
+    <% }) %>
+
+    <!-- Other Guides -->
+    <div style="margin-top:32px">
+      <div class="section-label" style="margin-bottom:16px">Other Guides</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <% others.forEach(g => { %>
+        <a href="/guides/<%= g.id %>" class="guide-card" style="border-radius:12px">
+          <div class="guide-card-top" style="padding:18px">
+            <div style="font-size:28px;margin-bottom:8px"><%= g.icon %></div>
+            <span class="guide-level-badge" style="color:<%= g.levelColor %>;border-color:<%= g.levelColor %>40;background:<%= g.levelColor %>18"><%= g.level %></span>
+            <div style="font-size:14px;font-weight:800;margin-top:8px"><%= g.title %></div>
+          </div>
+        </a>
+        <% }) %>
+      </div>
+    </div>
+
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

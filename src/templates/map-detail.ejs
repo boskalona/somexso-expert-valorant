@@ -1,0 +1,103 @@
+<%- include('partials/head', { title: map.name + ' Map Guide' }) %>
+<%- include('partials/nav', { page: 'maps' }) %>
+<div class="page">
+  <div class="page-banner" style="background:linear-gradient(135deg,<%= map.accent %>22,var(--bg2));">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › <a href="/maps">Maps</a> › <%= map.name %></div>
+      <h1 style="color:<%= map.accent %>"><%= map.name %></h1>
+      <p>📍 <%= map.location %> · Sites: <%= map.sites %></p>
+    </div>
+  </div>
+
+  <div class="map-detail-layout">
+
+    <!-- Left Column -->
+    <div>
+      <div class="map-hero-img" style="background:linear-gradient(135deg,<%= map.color %>22,var(--bg3))">
+        <img src="https://media.valorant-api.com/maps/<%= map.uuid %>/splash.png"
+             alt="<%= map.name %>"
+             onerror="this.src='https://media.valorant-api.com/maps/<%= map.uuid %>/listviewicontall.png';this.onerror=null;"/>
+      </div>
+
+      <!-- Overview -->
+      <div class="detail-card" style="margin-top:20px">
+        <div class="detail-card-head"><div class="head-icon">📋</div><h2>Map Overview</h2></div>
+        <div style="padding:18px 20px;font-size:14px;color:var(--text2);line-height:1.8"><%= map.overview %></div>
+        <div class="detail-card-head" style="border-top:1px solid var(--border)"><div class="head-icon">📍</div><h2>Key Callouts</h2></div>
+        <div class="callout-tags">
+          <% map.callouts.forEach(c => { %><span class="callout-tag"><%= c %></span><% }) %>
+        </div>
+      </div>
+
+      <!-- Best Agents -->
+      <div class="detail-card" style="margin-top:20px">
+        <div class="detail-card-head"><div class="head-icon">🧬</div><h2>Best Agents on <%= map.name %></h2></div>
+        <div style="padding:16px 20px;display:flex;gap:14px;flex-wrap:wrap">
+          <% map.bestAgents.forEach(aName => {
+            const agents = require('../data/agents');
+            const a = agents.find(ag => ag.name === aName);
+          %>
+          <% if(a){ %>
+          <a href="/agents/<%= a.id %>" style="text-align:center;flex-shrink:0">
+            <img src="https://media.valorant-api.com/agents/<%= a.uuid %>/displayicon.png"
+                 alt="<%= a.name %>"
+                 style="width:56px;height:56px;border-radius:12px;border:2px solid rgba(255,70,85,0.3);object-fit:cover"
+                 onerror="this.style.display='none'"/>
+            <div style="font-size:11px;font-weight:700;margin-top:6px;color:var(--text2)"><%= a.name %></div>
+          </a>
+          <% } else { %>
+          <div style="text-align:center;flex-shrink:0">
+            <div style="width:56px;height:56px;border-radius:12px;border:2px solid rgba(255,70,85,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:24px">🎮</div>
+            <div style="font-size:11px;font-weight:700;margin-top:6px;color:var(--text2)"><%= aName %></div>
+          </div>
+          <% } %>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div>
+      <!-- Attack Tips -->
+      <div class="detail-card">
+        <div class="detail-card-head" style="background:rgba(249,115,22,0.06)">
+          <div class="head-icon" style="background:rgba(249,115,22,0.15);border-color:rgba(249,115,22,0.3)">⚔️</div>
+          <h2 style="color:#fb923c">Attack Tips</h2>
+        </div>
+        <ul class="tips-list">
+          <% map.attackTips.forEach(t => { %><li><%= t %></li><% }) %>
+        </ul>
+      </div>
+
+      <!-- Defense Tips -->
+      <div class="detail-card" style="margin-top:20px">
+        <div class="detail-card-head" style="background:rgba(96,165,250,0.06)">
+          <div class="head-icon" style="background:rgba(96,165,250,0.15);border-color:rgba(96,165,250,0.3)">🛡️</div>
+          <h2 style="color:#60a5fa">Defense Tips</h2>
+        </div>
+        <ul class="tips-list">
+          <% map.defenseTips.forEach(t => { %><li><%= t %></li><% }) %>
+        </ul>
+      </div>
+
+      <!-- Other Maps -->
+      <div class="detail-card" style="margin-top:20px">
+        <div class="detail-card-head"><div class="head-icon">🗺️</div><h2>Other Maps</h2></div>
+        <div style="padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <% maps.filter(m=>m.id!==map.id).slice(0,6).forEach(m => { %>
+          <a href="/maps/<%= m.id %>" style="border-radius:10px;overflow:hidden;border:1px solid var(--border);transition:var(--t);display:block" onmouseover="this.style.borderColor='rgba(255,70,85,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+            <img src="https://media.valorant-api.com/maps/<%= m.uuid %>/listviewicontall.png"
+                 alt="<%= m.name %>"
+                 style="width:100%;height:60px;object-fit:cover"
+                 onerror="this.style.display='none'"/>
+            <div style="padding:6px 8px;font-size:11px;font-weight:700"><%= m.name %></div>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

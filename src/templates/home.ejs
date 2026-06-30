@@ -1,0 +1,145 @@
+<%- include('partials/head', { title: 'SomeXso Expert Valorant' }) %>
+<%- include('partials/nav', { page: 'home' }) %>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag"><span class="dot"></span> Beginner to Radiant</div>
+        <h1>Master <em>Valorant</em><br>From Zero to<br>Radiant</h1>
+        <p class="hero-desc">The most complete Valorant guide. Agent strategies, map tactics, weapon breakdowns, and step-by-step climbing guides for every rank.</p>
+        <div class="hero-btns">
+          <a href="/guides" class="btn-primary">📚 Start Learning</a>
+          <a href="/agents" class="btn-outline">🧬 Browse Agents</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num"><%= agents.length %>+</div><div class="lbl">Agents</div></div>
+          <div class="hero-stat"><div class="num">8</div><div class="lbl">Maps</div></div>
+          <div class="hero-stat"><div class="num">4</div><div class="lbl">Rank Guides</div></div>
+        </div>
+      </div>
+      <div class="hero-agents">
+        <% const heroImgs = [
+          {uuid:'add6443a-41bd-e414-f6ad-e58d267f4e95', name:'Jett', role:'Duelist', cls:'main'},
+          {uuid:'a3bfb853-43b2-7238-a4f1-ad90e9e46bcc', name:'Reyna', role:'Duelist', cls:'side1'},
+          {uuid:'569fdd95-4d10-43ab-ca70-79becc718b46', name:'Sage', role:'Sentinel', cls:'side2'},
+        ]; %>
+        <% heroImgs.forEach(h => { %>
+        <div class="hero-agent-card <%= h.cls %>">
+          <img src="https://media.valorant-api.com/agents/<%= h.uuid %>/fullportrait.png"
+               alt="<%= h.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:60px;background:var(--bg3)">🎮</div>
+          <div class="agent-name-overlay">
+            <div class="name"><%= h.name %></div>
+            <div class="role"><%= h.role %></div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED AGENTS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Agent Roster</div>
+        <h2 class="section-title">Popular <em>Agents</em></h2>
+      </div>
+      <a href="/agents" class="view-all">View All →</a>
+    </div>
+    <div class="agents-grid">
+      <% agents.forEach(agent => { %>
+      <a href="/agents/<%= agent.id %>" class="agent-card fade-up">
+        <div class="agent-img-wrap">
+          <img src="https://media.valorant-api.com/agents/<%= agent.uuid %>/fullportrait.png"
+               alt="<%= agent.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="agent-img-fallback" style="display:none;">🎮</div>
+          <span class="agent-role-badge role-<%= agent.role %>"><%= agent.role %></span>
+          <span class="tier-badge tier-<%= agent.tier %>"><%= agent.tier %></span>
+        </div>
+        <div class="agent-info">
+          <div class="name"><%= agent.name %></div>
+          <div class="origin"><%= agent.origin %></div>
+          <div class="desc"><%= agent.desc %></div>
+          <div class="difficulty-wrap">
+            <span class="difficulty-label">Difficulty</span>
+            <div class="difficulty-dots">
+              <% for(let i=1;i<=5;i++){ %>
+                <div class="<%= i<=agent.difficulty ? 'dot-fill' : 'dot-empty' %>"></div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- MAPS PREVIEW -->
+  <section class="section" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Map Pool</div>
+        <h2 class="section-title">Current <em>Maps</em></h2>
+      </div>
+      <a href="/maps" class="view-all">View All →</a>
+    </div>
+    <div class="maps-grid">
+      <% maps.forEach(map => { %>
+      <a href="/maps/<%= map.id %>" class="map-card fade-up">
+        <div class="map-img-wrap">
+          <img src="https://media.valorant-api.com/maps/<%= map.uuid %>/listviewicontall.png"
+               alt="<%= map.name %>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="map-img-fallback" style="display:none;background:var(--bg3)">🗺️</div>
+          <span class="map-feature-tag"><%= map.feature %></span>
+        </div>
+        <div class="map-info">
+          <div class="name"><%= map.name %></div>
+          <div class="location">📍 <%= map.location %></div>
+          <div class="overview"><%= map.overview %></div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- GUIDES PREVIEW -->
+  <section class="section" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Rank Climbing Guides</div>
+        <h2 class="section-title">Learn at Your <em>Level</em></h2>
+      </div>
+      <a href="/guides" class="view-all">View All →</a>
+    </div>
+    <div class="guides-grid">
+      <% guides.forEach(g => { %>
+      <a href="/guides/<%= g.id %>" class="guide-card fade-up">
+        <div class="guide-card-top">
+          <div class="guide-icon"><%= g.icon %></div>
+          <span class="guide-level-badge" style="color:<%= g.levelColor %>;border-color:<%= g.levelColor %>40;background:<%= g.levelColor %>18"><%= g.level %></span>
+          <div class="guide-title"><%= g.title %></div>
+          <div class="guide-sub"><%= g.subtitle %></div>
+        </div>
+        <div class="guide-card-foot">
+          <span class="guide-duration">⏱ <%= g.duration %></span>
+          <span class="guide-chapters"><%= g.chapters.length %> chapters →</span>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+
+</div>
+
+<%- include('partials/footer') %>
+</body></html>

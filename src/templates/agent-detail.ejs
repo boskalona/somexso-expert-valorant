@@ -1,0 +1,113 @@
+<%- include('partials/head', { title: agent.name + ' Guide' }) %>
+<%- include('partials/nav', { page: 'agents' }) %>
+<div class="page">
+  <div class="page-banner" style="background:linear-gradient(135deg,<%= agent.color %>18,var(--bg2));">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › <a href="/agents">Agents</a> › <%= agent.name %></div>
+      <h1 style="color:<%= agent.color %>"><%= agent.name %></h1>
+      <p><%= agent.role %> from <%= agent.origin %> · <%= agent.playstyle %></p>
+    </div>
+  </div>
+
+  <div class="agent-detail-layout">
+    <!-- Profile Sidebar -->
+    <div class="agent-profile">
+      <div class="agent-portrait" style="background:linear-gradient(160deg,<%= agent.color %>22,var(--bg3))">
+        <img src="https://media.valorant-api.com/agents/<%= agent.uuid %>/fullportrait.png"
+             alt="<%= agent.name %>"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="agent-portrait-fallback" style="display:none;">🎮</div>
+        <div class="agent-portrait-overlay">
+          <span class="agent-role-badge role-<%= agent.role %>" style="position:relative;top:0;left:0;"><%= agent.role %></span>
+        </div>
+      </div>
+      <div class="profile-meta">
+        <div class="profile-name" style="color:<%= agent.color %>"><%= agent.name %></div>
+        <div class="profile-role"><%= agent.role %></div>
+        <div class="profile-origin">📍 <%= agent.origin %></div>
+        <div class="profile-desc"><%= agent.desc %></div>
+        <div class="profile-playstyle">
+          <div><div class="lbl">Playstyle</div><div class="val"><%= agent.playstyle %></div></div>
+          <div><div class="lbl">Difficulty</div>
+            <div class="difficulty-dots" style="margin-top:4px">
+              <% for(let i=1;i<=5;i++){ %><div class="<%= i<=agent.difficulty?'dot-fill':'dot-empty' %>"></div><% } %>
+            </div>
+          </div>
+          <div><div class="lbl">Tier</div><div class="val" style="color:var(--red)"><%= agent.tier %> Tier</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Main -->
+    <div class="agent-detail-main">
+
+      <!-- Abilities -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="head-icon">⚡</div>
+          <h2>Abilities</h2>
+        </div>
+        <div class="abilities-grid">
+          <% agent.abilities.forEach(ab => { %>
+          <div class="ability-item">
+            <div class="ability-key"><%= ab.key %></div>
+            <div class="ability-name"><%= ab.name %></div>
+            <div class="ability-type"><%= ab.type %></div>
+            <div class="ability-desc"><%= ab.desc %></div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="head-icon">💡</div>
+          <h2>Pro Tips for <%= agent.name %></h2>
+        </div>
+        <ul class="tips-list">
+          <% agent.tips.forEach(t => { %><li><%= t %></li><% }) %>
+        </ul>
+      </div>
+
+      <!-- Level Tips -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="head-icon">📈</div>
+          <h2>Tips by Rank Level</h2>
+        </div>
+        <div class="level-tips">
+          <% [['beginner','Beginner'],['intermediate','Intermediate'],['advanced','Advanced'],['pro','Pro / Radiant']].forEach(([key,label]) => { %>
+          <div class="level-tip-item">
+            <span class="level-badge level-<%= key.charAt(0).toUpperCase()+key.slice(1) %>"><%= label %></span>
+            <div class="level-tip-text"><%= agent.levelTips[key] %></div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Other Agents -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="head-icon">🧬</div>
+          <h2>Other Agents</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px;">
+          <% others.forEach(o => { %>
+          <a href="/agents/<%= o.id %>" style="text-align:center;padding:12px 8px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);transition:var(--t);display:block;color:inherit" onmouseover="this.style.borderColor='rgba(255,70,85,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+            <img src="https://media.valorant-api.com/agents/<%= o.uuid %>/displayicon.png"
+                 alt="<%= o.name %>"
+                 style="width:48px;height:48px;margin:0 auto 8px;object-fit:contain"
+                 onerror="this.style.display='none'"/>
+            <div style="font-size:12px;font-weight:700"><%= o.name %></div>
+            <div style="font-size:10px;color:var(--text3)"><%= o.role %></div>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>

@@ -1,0 +1,57 @@
+<%- include('partials/head', { title: 'Rank Guides' }) %>
+<%- include('partials/nav', { page: 'guides' }) %>
+<div class="page">
+  <div class="page-banner">
+    <div class="page-banner-content">
+      <div class="breadcrumb"><a href="/">Home</a> › Guides</div>
+      <h1>📚 Rank Climbing Guides</h1>
+      <p>Step-by-step guides for every rank — from absolute beginner fundamentals to Radiant-level strategy.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="guides-grid">
+      <% guides.forEach(g => { %>
+      <a href="/guides/<%= g.id %>" class="guide-card fade-up">
+        <div class="guide-card-top">
+          <div class="guide-icon"><%= g.icon %></div>
+          <span class="guide-level-badge" style="color:<%= g.levelColor %>;border-color:<%= g.levelColor %>40;background:<%= g.levelColor %>18"><%= g.level %></span>
+          <div class="guide-title"><%= g.title %></div>
+          <div class="guide-sub"><%= g.subtitle %></div>
+        </div>
+        <div class="guide-card-foot">
+          <span class="guide-duration">⏱ <%= g.duration %></span>
+          <span class="guide-chapters"><%= g.chapters.length %> chapters →</span>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+
+    <!-- Rank ladder -->
+    <div style="margin-top:60px;background:var(--bg2);border-radius:20px;border:1px solid var(--border);padding:32px">
+      <div class="section-label" style="margin-bottom:12px">Rank Ladder</div>
+      <h2 style="font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:24px">Which guide should you start with?</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">
+        <% [
+          {rank:'Iron I–III', color:'#9ca3af', guide:'beginner-fundamentals', label:'Beginner Guide', emoji:'🩶'},
+          {rank:'Bronze I–III', color:'#b87333', guide:'beginner-fundamentals', label:'Beginner Guide', emoji:'🥉'},
+          {rank:'Silver I–III', color:'#c0c0c0', guide:'intermediate-mechanics', label:'Intermediate Guide', emoji:'🥈'},
+          {rank:'Gold I–III', color:'#ffd700', guide:'intermediate-mechanics', label:'Intermediate Guide', emoji:'🏅'},
+          {rank:'Platinum I–III', color:'#40e0d0', guide:'advanced-strategy', label:'Advanced Guide', emoji:'💠'},
+          {rank:'Diamond I–III', color:'#b9f2ff', guide:'advanced-strategy', label:'Advanced Guide', emoji:'💎'},
+          {rank:'Ascendant I–III', color:'#7fff00', guide:'pro-mindset', label:'Pro Guide', emoji:'🌿'},
+          {rank:'Immortal I–III', color:'#ff4655', guide:'pro-mindset', label:'Pro Guide', emoji:'🔴'},
+          {rank:'Radiant', color:'#fffacd', guide:'pro-mindset', label:'Pro Guide', emoji:'⭐'},
+        ].forEach(item => { %>
+        <a href="/guides/<%= item.guide %>" style="padding:14px 16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);transition:var(--t);display:block;color:inherit" onmouseover="this.style.borderColor='rgba(255,70,85,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:20px;margin-bottom:6px"><%= item.emoji %></div>
+          <div style="font-size:13px;font-weight:700;color:<%= item.color %>;margin-bottom:2px"><%= item.rank %></div>
+          <div style="font-size:11px;color:var(--text3)"><%= item.label %></div>
+        </a>
+        <% }) %>
+      </div>
+    </div>
+
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body></html>
